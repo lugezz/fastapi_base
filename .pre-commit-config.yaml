@@ -37,6 +37,5 @@ repos:
           "--max-line-length=130",
           "--statistics",
           "--extend-ignore=E231",
-          #"--exclude=**/migrations/*,**/settings/*,**/alembic/*,**/alembic/versions/*,config.py"
         ]
         exclude: (migrations/|settings/|alembic/|config.py)
