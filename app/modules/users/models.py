@@ -18,7 +18,7 @@ class User(BaseModel):
 
     # Relationships
     contacts = relationship("Contact", back_populates="user", cascade="all, delete-orphan")
-    
+
     @property
     def full_name(self) -> str:
         """Computed full name from first and last name."""

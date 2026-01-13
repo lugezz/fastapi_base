@@ -23,7 +23,7 @@ class Contact(BaseModel):
     # Relationships
     user = relationship("User", back_populates="contacts")
     # company = relationship("Company", back_populates="contacts")
-    
+
     @property
     def full_name(self) -> str:
         """Computed full name from first and last name."""

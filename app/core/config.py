@@ -1,4 +1,5 @@
 from functools import lru_cache
+from urllib.parse import quote_plus
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -21,7 +22,7 @@ class Settings(BaseSettings):
     @property
     def database_url(self) -> str:
         """Construct PostgreSQL database URL."""
-        return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        return f"postgresql://{quote_plus(self.postgres_user)}:{quote_plus(self.postgres_password)}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
     # Security
     secret_key: str = "your-secret-key-here-change-in-production"
