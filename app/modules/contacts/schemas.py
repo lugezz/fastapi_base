@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class ContactBase(BaseModel):
@@ -31,7 +32,7 @@ class ContactUpdate(BaseModel):
 class ContactInDB(ContactBase):
     """Schema for contact in database."""
     model_config = ConfigDict(from_attributes=True)
-    
+
     id: int
     created_at: datetime
     updated_at: datetime

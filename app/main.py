@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import get_settings
 from app.core.database import init_db
-from app.modules.users import router as users_router
 from app.modules.companies import router as companies_router
 from app.modules.contacts import router as contacts_router
+from app.modules.users import router as users_router
 
 settings = get_settings()
 

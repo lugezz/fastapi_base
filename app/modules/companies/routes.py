@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
 from typing import List
 
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from app.core.database import get_db
-from app.modules.companies.service import CompanyService
 from app.modules.companies.schemas import Company, CompanyCreate, CompanyUpdate
+from app.modules.companies.service import CompanyService
 
 router = APIRouter(prefix="/companies", tags=["companies"])
 
