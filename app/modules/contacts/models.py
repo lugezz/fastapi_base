@@ -16,10 +16,17 @@ class Contact(BaseModel):
 
     # Foreign key to company
     company_id = Column(Integer, ForeignKey("companies.id"), nullable=True)
-    
+
     # Foreign key to user (owner of this contact)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     # Relationships
     user = relationship("User", back_populates="contacts")
     # company = relationship("Company", back_populates="contacts")
+    
+    @property
+    def full_name(self) -> str:
+        """Computed full name from first and last name."""
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        return self.first_name or self.last_name or ""
