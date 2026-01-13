@@ -1,4 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
@@ -15,6 +16,10 @@ class Contact(BaseModel):
 
     # Foreign key to company
     company_id = Column(Integer, ForeignKey("companies.id"), nullable=True)
+    
+    # Foreign key to user (owner of this contact)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    # Relationship
+    # Relationships
+    user = relationship("User", back_populates="contacts")
     # company = relationship("Company", back_populates="contacts")

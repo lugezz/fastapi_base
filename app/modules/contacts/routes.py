@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.modules.contacts.schemas import Contact, ContactCreate, ContactUpdate
+from app.modules.contacts.schemas import Contact, ContactCreate, ContactUpdate, ContactWithUser
 from app.modules.contacts.service import ContactService
 
 router = APIRouter(prefix="/contacts", tags=["contacts"])
@@ -34,6 +34,21 @@ def read_contact(
     service: ContactService = Depends(get_contact_service)
 ):
     """Get contact by ID."""
+    contact = service.get_contact(contact_id)
+    if not contact:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Contact not found"
+        )
+    return contact
+
+
+@router.get("/{contact_id}/with-user", response_model=ContactWithUser)
+def read_contact_with_user(
+    contact_id: int,
+    service: ContactService = Depends(get_contact_service)
+):
+    """Get contact by ID with user information."""
     contact = service.get_contact(contact_id)
     if not contact:
         raise HTTPException(

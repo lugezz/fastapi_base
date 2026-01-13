@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.modules.users.schemas import User, UserCreate, UserUpdate
+from app.modules.users.schemas import User, UserCreate, UserUpdate, UserWithContacts
 from app.modules.users.service import UserService
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -31,6 +31,21 @@ def read_user(
     service: UserService = Depends(get_user_service)
 ):
     """Get user by ID."""
+    user = service.get_user(user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    return user
+
+
+@router.get("/{user_id}/with-contacts", response_model=UserWithContacts)
+def read_user_with_contacts(
+    user_id: int,
+    service: UserService = Depends(get_user_service)
+):
+    """Get user by ID with all their contacts."""
     user = service.get_user(user_id)
     if not user:
         raise HTTPException(

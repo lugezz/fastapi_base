@@ -1,7 +1,10 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, EmailStr
+
+if TYPE_CHECKING:
+    from app.modules.contacts.schemas import Contact
 
 
 class UserBase(BaseModel):
@@ -11,6 +14,16 @@ class UserBase(BaseModel):
     full_name: Optional[str] = None
     is_active: bool = True
     is_superuser: bool = False
+
+
+class UserBasic(BaseModel):
+    """Basic user info for nested responses."""
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    email: EmailStr
+    username: str
+    full_name: Optional[str] = None
 
 
 class UserCreate(UserBase):
@@ -40,3 +53,17 @@ class UserInDB(UserBase):
 class User(UserInDB):
     """Schema for user response."""
     pass
+
+
+if TYPE_CHECKING:
+    from app.modules.contacts.schemas import Contact
+
+
+class UserWithContacts(UserInDB):
+    """Schema for user response with contacts."""
+    contacts: List["Contact"] = []
+
+
+# Rebuild models to resolve forward references  
+from app.modules.contacts.schemas import Contact
+UserWithContacts.model_rebuild()
